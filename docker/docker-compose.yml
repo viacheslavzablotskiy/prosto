@@ -6,10 +6,8 @@ services:
   db_1:
     image: postgres
     container_name: vlad
-    environment:
-      - POSTGRES_DB = root
-      - POSTGRES_USER = root
-      - POSTGRES_PASSWORD=286226
+    env_file:
+      - ../docker/env.dev
     volumes:
       - pgdata:/var/lib/postgresql/data/
   redis:
@@ -17,30 +15,30 @@ services:
 
   celery:
     build: .
-    command: celery -A drfsite worker -l INFO
+    command: celery -A  docker.docker.celery worker --loglevel=INFO
     volumes:
-      - .:/router/router_2/router_3/drfsite/
-    environment:
-      - DEBUG=1
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1[::1]
-      - DJANGO_BROKER=redis://localhost:6379/0
-      - DJANGO_BACKEND=redis://localhost:6379/0
+      - .:/gost/gost_2/gost_3/docker/
+    links:
+      - 'db_1: 127.0.0.1'
+    env_file:
+      - ../docker/env.dev
     depends_on:
       - django
       - redis
+
   django:
     build: .
     restart: always
     container_name: django_room
-    command: python drfsite/manage.py runserver 0.0.0.0:8000
+    command: python docker/manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/router/router_2/router_3/drfsite/
+      - .:/gost/gost_2/gost_3/docker/
     ports:
       - "8000:8000"
-    environment:
-      - POSTGRES_DB = root
-      - POSTGRES_USER = root
-      - POSTGRES_PASSWORD=286226
+    env_file:
+     - ../docker/env.dev
+    links:
+      - "db_1: 127.0.0.1"
     depends_on:
       - db_1
       - redis

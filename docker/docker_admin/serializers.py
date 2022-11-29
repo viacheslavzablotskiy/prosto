@@ -1,30 +1,47 @@
+import io
+
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from .models import Post, Comment
+from rest_framework.parsers import JSONParser
+from rest_framework.renderers import JSONRenderer
+
+from .models import Women, Comment, Like, Otvet
 
 
+# class WomenModel:
+#     def __init__(self, title, content):
+#         self.title = title
+#         self.content = content
 
 
-class PostSerializer(serializers.ModelSerializer):
+class WomenSerializer(serializers.ModelSerializer):
+    owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
-
+    # author = serializers.ReadOnlyField(source='author.username')
 
     class Meta:
-        model = Post
-        fields = '__all__'
-
-
-# class UserSerializer(serializers.ModelSerializer):
-#
-#
-#     class Meta:
-#         model = User
-#         fields = "__all__"
+        model = Women
+        fields = "__all__"
 
 
 class CommentSerializer(serializers.ModelSerializer):
-
+    author = serializers.ReadOnlyField(source='author.username')
 
     class Meta:
         model = Comment
-        fields = "__all__"
+        fields = '__all__'
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    author = serializers.ReadOnlyField(source='author.username')
+
+    class Meta:
+        model = Like
+        fields = '__all__'
+
+
+class OtvetSerializer(serializers.ModelSerializer):
+    author = serializers.ReadOnlyField(source='author.username')
+
+    class Meta:
+        model = Otvet
+        fields = '__all__'

@@ -67,7 +67,7 @@ WSGI_APPLICATION = 'docker.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':os.environ.get('POSTGRES_DB','logout_port'),
+        'NAME':os.environ.get('POSTGRES_DATABASE', 'logout_port'),
         'USER':os.environ.get('POSTGRES_USER', 'postgres'),
         'PASSWORD':os.environ.get('POSTGRES_PASSWORD', '286226'),
         'HOST':os.environ.get('POSTGRES_HOST', '127.0.0.1'),
@@ -160,7 +160,11 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER', 'redis://localhost:6379/0')
-CELERY_RESULT_BACKEND = os.environ.get('CELERY_BROKER', 'redis://localhost:6379/0')
+# REDIS_HOST = '127.0.0.1'
+# REDIS_PORT = '6379'
+# CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+# CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER', 'redis://redis:6379/0')
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_BROKER', 'redis://redis:6379/0')
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'

@@ -15,11 +15,9 @@ services:
 
   celery:
     build: .
-    command: celery -A  docker.docker.celery worker --loglevel=INFO
-    volumes:
-      - .:/gost/gost_2/gost_3/docker/
-    links:
-      - 'db_1: 127.0.0.1'
+    command: celery -A  docker.celery worker --loglevel=INFO
+#    volumes:
+#      - .:/gost/gost_2/gost_3/docker/
     env_file:
       - ../docker/env.dev
     depends_on:
@@ -30,15 +28,15 @@ services:
     build: .
     restart: always
     container_name: django_room
-    command: python docker/manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/gost/gost_2/gost_3/docker/
+    command: python manage.py runserver 0.0.0.0:8000
+#    volumes:
+#      - .:/gost/gost_2/gost_3/docker/
     ports:
       - "8000:8000"
     env_file:
      - ../docker/env.dev
     links:
-      - "db_1: 127.0.0.1"
+      - "db_1:db"
     depends_on:
       - db_1
       - redis

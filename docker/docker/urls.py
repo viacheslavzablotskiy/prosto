@@ -4,9 +4,7 @@ from docker_admin.views import *
 from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView, TokenVerifyView
 from rest_framework import routers
 
-# router = routers.SimpleRouter
-# router.register(r'women', UserBook, basename='women')
-# print(router.urls)#'Доббавляется /women/'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', WomenAPIList.as_view(), name="margo"),
@@ -20,4 +18,5 @@ urlpatterns = [
     path('api/like/', UserBook.as_view()),
     path('api/like/<int:pk>/', UserBookL.as_view()),
     path('api/otvet/', Otvet_root.as_view()),
-    path('api/otvet/<int:pk>/', Otvet_coll.as_view()),]
+    path('api/otvet/<int:pk>/', Otvet_coll.as_view()),
+]

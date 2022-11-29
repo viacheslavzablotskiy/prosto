@@ -14,13 +14,13 @@ class Women(models.Model):
     def __str__(self):
         return f"{self.time_create}"
 
+
 class Comment(models.Model):
     owner = models.ForeignKey('Women', related_name='comments', on_delete=models.CASCADE)
     time_now = models.DateTimeField(auto_now_add=True)
     content = models.TextField(blank=True)
     author = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE, null=True)
     author_1 = models.ManyToManyField(User, through='Otvet', related_name='load')
-
 
     def __str__(self):
         return f"{self.time_now}"
@@ -29,13 +29,11 @@ class Comment(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=255, db_index=True)
     owner = models.ForeignKey('auth.User', related_name='categories', on_delete=models.CASCADE, null=True)
-    #posts = models.ManyToManyField('Women', related_name='categories', blank=True)
+
+    # posts = models.ManyToManyField('Women', related_name='categories', blank=True)
 
     def __str__(self):
         return f"{self.name}"
-
-
-
 
 
 class Like(models.Model):
@@ -46,10 +44,10 @@ class Like(models.Model):
         (4, 'Amazing'),
         (5, 'Incredible'),
     )
-    book = models.ForeignKey('Women',  on_delete=models.CASCADE, related_name='blok')
+    book = models.ForeignKey('Women', on_delete=models.CASCADE, related_name='blok')
     like = models.BooleanField(default=False)
     in_bookmarks = models.BooleanField(default=False)
-    user = models.ForeignKey(User,  on_delete=models.CASCADE, related_name='boks', null = True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='boks', null=True)
     rate = models.PositiveIntegerField(choices=RATE_CHOICES, null=True)
 
     def __str__(self):
@@ -61,7 +59,6 @@ class Otvet(models.Model):
     time_now = models.DateTimeField(auto_now_add=True)
     text = models.TextField(blank=True)
     author_1 = models.ForeignKey(User, related_name='ragu', on_delete=models.CASCADE, null=True)
-
 
     def __str__(self):
         return f"{self.author_1}"

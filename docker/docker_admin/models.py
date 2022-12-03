@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
+
 class Women(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True)
@@ -62,3 +63,5 @@ class Otvet(models.Model):
 
     def __str__(self):
         return f"{self.author_1}"
+
+
